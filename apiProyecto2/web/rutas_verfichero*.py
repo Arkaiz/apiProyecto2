@@ -9,7 +9,7 @@ import subprocess
 @app.route ('/ver/<archivo>', methods=['GET']) 
 def ver(archivo):
     try:    
-        basepath = os.path.dirname(__file__) # ruta del archivo actual
+        basepath = os.path.dirname(__file__)
         upload_path = os.path.join (basepath,'static',archivo) 
         #if os.path.exists(upload_path):
         salida=subprocess.getoutput("cat " + upload_path)
