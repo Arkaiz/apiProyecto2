@@ -29,7 +29,7 @@ def guardar_mueble():
         code=401
     return json.dumps(ret), code
 
-@app.route("/juegos/<id>", methods=["DELETE"])
+@app.route("/muebles/<id>", methods=["DELETE"])
 def eliminar_mueble(id):
     ret,code=controlador_muebles.eliminar_mueble(id)
     return json.dumps(ret), code
