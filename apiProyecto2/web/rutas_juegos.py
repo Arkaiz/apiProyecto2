@@ -9,7 +9,7 @@ class Encoder(json.JSONEncoder):
         if isinstance(obj, decimal.Decimal): return float(obj)
 
 @app.route("/muebles",methods=["GET"])
-def juegos():
+def muebles():
     muebles,code= controlador_muebles.obtener_muebles()
     return json.dumps(muebles, cls = Encoder),code
 
