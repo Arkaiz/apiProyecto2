@@ -33,12 +33,12 @@
                 body: datos
             };
 
-            fetch("/muebles", requestOptions)
+            fetch("/api/muebles", requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.status == "OK"){
                         alert("Mueble guardado")
-                        location.href="/static/muebles.html"
+                        location.href="/muebles.html"
                     } else {
                         alert("El mueble no ha podido ser guardado")
                     }
@@ -62,7 +62,7 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="/static/muebles">Muebles</a>
+                <a class="navbar-item" href="/muebles">Muebles</a>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
@@ -89,7 +89,7 @@
                 <label for="foto">Foto</label>
                 <input required type="text" class="input" placeholder="Foto" name="foto" id="foto">
                 <button type="button" onclick="guardar()" class="button is-success mt-2">Guardar</button>
-                <a href="/static/mueble.html" class="button is-primary mt-2">Volver</a>
+                <a href="/mueble.html" class="button is-primary mt-2">Volver</a>
             </form>
         </div>
     </div>

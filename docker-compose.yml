@@ -35,6 +35,15 @@ services:
       PORT: 8080
       HOST: 0.0.0.0
     ports:
-      - 9094:8080
+      - 8080:8080
     depends_on:
         - mariadb
+  apache:
+    image: httpd:latest
+    ports:
+      - "7777:80"
+    volumes:
+      - ./web/static:/usr/local/apache2/htdocs
+      - ./apache-conf:/usr/local/apache2/conf/
+    depends_on:
+      - python
