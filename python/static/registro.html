@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./estilo2.css">
+    <title>APP PEPS</title>
+    <style>
+        .error{
+            display: none;
+            color: red;
+        }
+    </style>
+    <script>
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        function conectar() {
+    document.getElementsByClassName("error")[0].style.display = "none";
+    const raw = JSON.stringify({
+        "username": document.getElementById("username").value,
+        "password": document.getElementById("password").value,
+        "profile": document.getElementById("profile").value
+    });
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: raw
+    };
+
+    fetch("/api/registro", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === "OK") {
+                alert(result.mensaje);  // Muestra el mensaje del backend
+                location.href = "index.html";  // Redirige al login
+            } else {
+                const errorElement = document.getElementsByClassName("error")[0];
+                errorElement.innerText = result.mensaje || "Error desconocido";  // Muestra el mensaje de error
+                errorElement.style.display = "block";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Error de conexión con el servidor");
+        });
+}
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>REGISTRO DEL SISTEMA</h1>
+        <label>Usuario</label><input type="text" name="username" id="username"><br>
+        <label>Clave</label><input type="password" name="password" id="password"><br>
+        <label>Perfil</label><input type="text" readonly name="profile" id="profile" value="normal"><br>
+        <label class="error">Usuario ya existe</label>
+        <button type="button" onclick="conectar()">ENVIAR</button>
+    </div>
+</body>
+</html>

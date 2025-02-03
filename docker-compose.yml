@@ -6,13 +6,14 @@ services:
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: example
-      MARIADB_USER: agente
-      MARIADB_USER_PASSWORD: 0traClave
-      MARIADB_DATABASE: PEPS
+      MARIADB_DATABASE: TIENDA
     volumes:
       - ./mariadb_data:/var/lib/mysql:rw
       - ./Muebles.sql:/docker-entrypoint-initdb.d/init.sql:ro
     user: mysql
+    networks:
+      - backend
+
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin
@@ -23,13 +24,19 @@ services:
       - 9093:80
     depends_on:
       - mariadb
+    networks:
+      - backend
+
   python:
     build: .
+    volumes:
+      - ./python/static:/app/static:rw
     container_name: python
     environment:
+      PYTHONUNBUFFERED: 1
       DB_USERNAME: root
       DB_PASSWORD: example
-      DB_DATABASE: PEPS
+      DB_DATABASE: TIENDA
       DB_HOST: mariadb
       DB_PORT: 3306
       PORT: 8080
@@ -37,13 +44,21 @@ services:
     ports:
       - 8080:8080
     depends_on:
-        - mariadb
+      - mariadb
+    networks:
+      - backend
+    
+  
   apache:
     image: httpd:latest
     ports:
       - "7777:80"
     volumes:
-      - ./web/static:/usr/local/apache2/htdocs
+      - ./python/static:/usr/local/apache2/htdocs
       - ./apache-conf:/usr/local/apache2/conf/
     depends_on:
       - python
+
+networks:
+  backend:
+    driver: bridge
